@@ -10,7 +10,7 @@
 
 - 📁 **שינוי שם מרובים** / Batch file renaming
 - 🇮🇱 **ממספור עברי** / Full Hebrew numbering (א' ב' ג'... עד 9999)
-- 🔢 **ממספור מספרי** / Numeric numbering with optional dots (1. 2. 3. or 1 2 3)
+- 🔢 **מספור מספרי** / Numeric numbering with optional dots (1. 2. 3. or 1 2 3)
 - 📊 **מיון נכון** / Smart numeric sorting (1, 2, 10, 20, 100 - not 1, 10, 100, 2)
 - 👀 **תצוגה חיה** / Live preview before renaming
 - 🎯 **קדימה מותאמת** / Customizable prefix and separator
@@ -22,10 +22,10 @@
 ## 🚀 התחלה מהירה / Quick Start
 
 ### אפליקציה ניידה (Windows)
-פשוט הורד והרץ את `שינוי_שם_קבצים.exe` - לא צריך התקנה!
+פשוט הורד והרץ את `Hebrew-numbering.exe` - לא צריך התקנה!
 
 ```bash
-שינוי_שם_קבצים.exe
+Hebrew-numbering.exe
 ```
 
 ### או Python
@@ -97,8 +97,8 @@ print(HebrewNumbering.number_to_hebrew(15, False)) # טו
 
 ## הערות חשובות:
 
-1. **גיבוי** - יומלץ לגבות את הקבצים לפני ביצוע שינוי שם!
-2. **דוחק** - כל קובץ שיש לו כבר את השם החדש לא יהיה מעוקד.
+1. **גיבוי** - מומלץ לגבות את הקבצים לפני ביצוע שינוי שם!
+2. **דוחק** - כל קובץ שיש לו כבר את השם החדש לא ישתנה.
 3. **הרשאות** - ודא שיש לך הרשאות לשינוי קבצים בתיקייה.
 
 ## תמיכה:
