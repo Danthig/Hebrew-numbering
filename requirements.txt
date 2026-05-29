@@ -1,7 +1,13 @@
-# tkinter בדרך כלל מגיע עם Python, אבל אם לא:
-# Windows: pip install python-tkinter
-# Linux (Ubuntu/Debian): sudo apt-get install python3-tk
-# macOS: brew install python-tk
-
-# ספריות נוספות דרושות:
-natsort>=8.4.0
+diff --git a/requirements.txt b/requirements.txt
+index b736464fb519601c15cdc695174e335cc7340998..9f5b926906e5f11638ffb4382a39a00f32d7744e 100644
+--- a/requirements.txt
++++ b/requirements.txt
+@@ -1,7 +1,6 @@
+ # tkinter בדרך כלל מגיע עם Python, אבל אם לא:
+ # Windows: pip install python-tkinter
+ # Linux (Ubuntu/Debian): sudo apt-get install python3-tk
+ # macOS: brew install python-tk
+ 
+-# ספריות נוספות דרושות:
+-natsort>=8.4.0
++# אין צורך בספריות Python חיצוניות.
