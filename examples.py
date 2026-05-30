@@ -29,10 +29,11 @@ def example_3_numeric_numbering():
     print("\n" + "=" * 50)
     print("דוגמה 3: מספור מספרים")
     print("=" * 50)
-    
-    for i in range(1, 6):
-        print(f"עם נקודה: {i}.")
-        print(f"בלי נקודה: {i}")
+
+    for i in [1, 2, 3, 10, 11, 100]:
+        print(f"רגיל: {FileRenamer.format_number(i, 'numeric_no_dot')}")
+        print(f"עם אפס אחד: {FileRenamer.format_number(i, 'numeric_no_dot', numeric_padding=2)}")
+        print(f"עם שני אפסים: {FileRenamer.format_number(i, 'numeric_no_dot', numeric_padding=3)}")
 
 def example_4_simulate_rename():
     """דוגמה 4: הדמיית שינוי שם קבצים"""
@@ -52,7 +53,6 @@ def example_4_simulate_rename():
     print("\n▶ דוגמה א: עם מספור בעברית וגרש")
     for idx, filename in enumerate(sample_files, start=1):
         extension = Path(filename).suffix
-        name = Path(filename).stem
         number = HebrewNumbering.number_to_hebrew(idx, with_geresh=True)
         new_name = f"קובץ_{number}{extension}"
         print(f"  {filename} → {new_name}")
@@ -64,10 +64,11 @@ def example_4_simulate_rename():
         new_name = f"מסמך_{number}{extension}"
         print(f"  {filename} → {new_name}")
     
-    print("\n▶ דוגמה ג: עם מספור מספרים ונקודה")
+    print("\n▶ דוגמה ג: עם מספור מספרים עם אפס מוביל")
     for idx, filename in enumerate(sample_files, start=1):
         extension = Path(filename).suffix
-        new_name = f"file_{idx}.{extension.lstrip('.')}"
+        number = FileRenamer.format_number(idx, 'numeric_no_dot', numeric_padding=2)
+        new_name = f"file_{number}{extension}"
         print(f"  {filename} → {new_name}")
 
 def example_5_hebrew_numbers():
@@ -76,7 +77,7 @@ def example_5_hebrew_numbers():
     print("דוגמה 5: מספרים בעברית מורכבים")
     print("=" * 50)
     
-    numbers = [1, 5, 10, 15, 20, 100, 123, 500, 999]
+    numbers = [1, 5, 10, 15, 20, 100, 123, 500, 999, 1000, 1001, 2001, 5778]
     
     print("\nעם גרש/גרשיים:")
     for num in numbers:
@@ -86,7 +87,12 @@ def example_5_hebrew_numbers():
     print("\nללא גרש/גרשיים:")
     for num in numbers:
         hebrew = HebrewNumbering.number_to_hebrew(num, with_geresh=False)
-        print(f"  {num:>3} = {hebrew}")
+        print(f"  {num:>4} = {hebrew}")
+
+    print("\nסגנון אלפים מילולי:")
+    for num in [1000, 1001, 2001, 5778]:
+        hebrew = HebrewNumbering.number_to_hebrew(num, with_geresh=True, thousands_style='words')
+        print(f"  {num:>4} = {hebrew}")
 
 def example_6_custom_separator():
     """דוגמה 6: תוי הפרדה שונים"""
