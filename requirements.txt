@@ -3,4 +3,8 @@
 # Linux (Ubuntu/Debian): sudo apt-get install python3-tk
 # macOS: brew install python-tk
 
-# אין צורך בספריות Python חיצוניות.
+# הליבה, ה-CLI וממשק ה-tkinter — ללא תלויות חיצוניות.
+#
+# הממשק הגרפי המודרני (HTML/CSS) דורש pywebview (אופציונלי):
+#   pip install pywebview
+# אם pywebview לא מותקן, המערכת נופלת אוטומטית לממשק tkinter.

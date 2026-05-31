@@ -46,3 +46,10 @@ Thumbs.db
 # Temporary
 *.tmp
 temp/
+
+# Binaries — מופצים דרך GitHub Releases, לא נשמרים ב-git
+*.exe
+
+# יומן/הגדרות מקומיים של המשתמש
+.hebrew_renamer/
+.__hrn_tmp_*
