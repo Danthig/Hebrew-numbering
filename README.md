@@ -1,123 +1,123 @@
 # תוכנת שינוי שם קבצים - Hebrew File Renamer
 
-תוכנה לשינוי שם של קבצים מרובים עם תמיכה במספור עברי, במספור מספרי רגיל, ובמספור מספרי עם אפסים מובילים.
+תוכנה לשינוי שם של קבצים מרובים עם תמיכה במספור עברי (גימטריה), במספור מספרי, ובמספור עם אפסים מובילים — כולל **לשון נקייה**, **Undo**, ושינוי שם **אטומי ובטוח**.
 
-**A batch file renamer with Hebrew numbering, regular numeric numbering, and zero-padded numeric numbering.**
+**A batch file renamer with Hebrew (gematria) numbering, "clean language" substitutions, full undo, and atomic-safe renaming.**
 
 ---
 
 ## ✨ תכונות / Features
 
 - 📁 **שינוי שם מרובים** / Batch file renaming
-- 🇮🇱 **מספור עברי מעל אלף** / Hebrew numbering above 1,000 up to 999,999
+- 🇮🇱 **מספור עברי עד 999,999** / Hebrew numbering up to 999,999
   - סגנון אותיות: `א' א'`, `ה' תשע"ח`
   - סגנון מילים: `אלף א'`, `אלפיים א'`
-- 🔢 **מספור מספרי עם אפסים מובילים** / Numeric zero padding
-  - ללא אפסים: `1`, `2`, `3`, `10`, `11`
-  - אפס אחד: `01`, `02`, `03`, `10`, `11`
-  - שני אפסים: `001`, `002`, `003`, `010`, `011`, `100`, `101`
-- 📊 **מיון טבעי נכון** / Smart numeric sorting (`1, 2, 10` instead of `1, 10, 2`)
-- 👀 **תצוגה חיה** / Live preview before renaming
-- 🎯 **תחילית ותו הפרדה מותאמים** / Customizable prefix and separator
-- ➕ **החלפה או הוספה** / Replace the original name or add numbering before/after it
-- 📂 **בחירת תיקייה או קבצים** / Select folders, individual files, and optionally include subfolders
-- 🖥️ **ממשק גרפי** / Tkinter GUI with Hebrew labels
+- 🕊️ **לשון נקייה** / "Clean language" — החלפת צירופים לא רצויים:
+  - `שד` → `דש` (304, פעיל כברירת מחדל)
+  - אופציונלי: `רע` → `ער` (270), `שמד` → `דמש` (344)
+  - משלים את ההימנעות הקיימת משם ה': `15 → טו`, `16 → טז`
+- 🔢 **מספור מספרי עם אפסים מובילים** / Numeric zero padding (`01`, `001`)
+- ↩️ **Undo מלא** / Full undo — ביטול הריצה האחרונה, גם אחרי סגירת התוכנה
+- 🛡️ **שינוי אטומי בטוח** / Atomic two-phase rename — פותר שרשראות/מעגלים (`1→2, 2→3`) בלי לאבד קבצים
+- 🚫 **זיהוי התנגשויות** / Conflict detection — שמות כפולים, קבצים קיימים, תווים אסורים
+- 📊 **מיון חכם** / Smart sorting — טבעי, שם, תאריך, גודל, סוג
+- 👀 **תצוגה חיה** / Live preview עם סימון התנגשויות באדום
+- ⏳ **התקדמות וביטול** / Progress bar + cancel — ה-GUI לא קופא
+- 💾 **שמירת הגדרות** / Settings persisted between runs
+- 🖥️ **ממשק גרפי + CLI** / Both Tkinter GUI and full command-line interface
 
 ---
 
 ## 🚀 התחלה מהירה / Quick Start
 
-### הרצה עם Python
+### ממשק גרפי / GUI
 
 ```bash
 python gui.py
 ```
 
-### Windows
+ב-Windows אפשר גם דרך `run.bat`.
 
-אפשר להריץ גם דרך:
+### שורת פקודה / CLI
 
-```bat
-run.bat
+```bash
+# תצוגה מקדימה בלבד (לא משנה כלום)
+python -m hebrew_renamer ./photos --prefix תמונה --type hebrew --dry-run
+
+# מספור עברי בלשון נקייה
+python -m hebrew_renamer ./photos --type hebrew --clean-language
+
+# מספור מספרי עם אפסים מובילים, ללא אישור אינטראקטיבי
+python -m hebrew_renamer ./docs --type numeric --padding 3 --yes
+
+# ביטול הריצה האחרונה
+python -m hebrew_renamer --undo
 ```
 
-או לפתוח את קובץ ההפעלה אם הוא קיים בתיקיית הפרויקט:
-
-```text
-שינוי_שם_קבצים.exe
-```
+אפשרויות עיקריות: `--prefix`, `--separator`, `--type {hebrew,numeric,numeric_no_dot}`,
+`--start`, `--padding`, `--no-geresh`, `--thousands {letters,words}`,
+`--mode {replace,prepend,append}`, `--clean-language`, `--clean-extra`,
+`--recursive`, `--sort`, `--dry-run`, `--undo`, `--yes`.
 
 ---
 
-## שימוש בממשק הגרפי
+## 🧩 ארכיטקטורה / Architecture
 
-1. בחר תיקייה או קבצים.
-2. בחר סוג מספור:
-   - `עברית`
-   - `1.`
-   - `1`
-3. למספור עברי מעל אלף, בחר סגנון אלפים:
-   - `אותיות (א' א')`
-   - `מילים (אלף א')`
-4. למספור מספרי עם אפסים מובילים, בחר:
-   - `ללא (1, 2, 3)`
-   - `0 אחד (01, 02)`
-   - `00 שניים (001, 002)`
-5. בדוק את התצוגה המקדימה ולחץ על **בצע שינוי שם!**.
+הקוד מאורגן בשכבות תחת החבילה `hebrew_renamer`:
+
+| מודול | תפקיד |
+|-------|-------|
+| `gematria.py` | מנוע מספור עברי (לשון נקייה, הימנעות משם ה', ניתוח הפוך) |
+| `sanitizer.py` | ניקוי ואימות שמות קבצים (תווים אסורים, שמות שמורים, אורך) |
+| `sorting.py` | מיון טבעי ואסטרטגיות מיון |
+| `planner.py` | תכנון וביצוע אטומי בטוח + זיהוי התנגשויות |
+| `transaction.py` | יומן פעולות ו-Undo |
+| `renamer.py` | ה-API הראשי |
+| `cli.py` / `gui.py` | חזיתות שורת-פקודה וגרפית |
+
+`file_renamer.py` נשאר כשכבת תאימות לאחור.
 
 ---
 
-## שימוש בקוד
+## שימוש בקוד / Library usage
 
 ```python
-from file_renamer import FileRenamer, HebrewNumbering
+from hebrew_renamer import FileRenamer, HebrewNumbering
+
+# מספור בלשון נקייה
+print(HebrewNumbering.number_to_hebrew(304, clean_language=True))  # ד"ש
+print(HebrewNumbering.number_to_hebrew(304))                       # ש"ד
 
 renamer = FileRenamer("C:/my/folder")
-files = renamer.get_files()
+files = renamer.get_files(sort_strategy="natural")
 
 results = renamer.rename_files(
     files,
     prefix="קובץ",
     numbering_type="hebrew",      # hebrew, numeric, numeric_no_dot
     with_geresh=True,
-    thousands_style="letters",    # letters או words
-    numeric_padding=0,             # 0, 2 עבור 01, או 3 עבור 001
-    separator="_",
-    start_number=1,
+    thousands_style="letters",    # letters / words
+    clean_language=True,          # שד→דש
     rename_mode="replace",        # replace, prepend, append
 )
 
-for old_name, new_name, success in results:
-    status = "✓" if success else "✗"
-    print(f"{status} {old_name} → {new_name}")
+renamer.undo_last()  # ביטול
 ```
 
 ---
 
-## דוגמאות מספור
+## הערות חשובות / Notes
 
-```python
-from file_renamer import FileRenamer, HebrewNumbering
+1. השינוי בטוח (אטומי) ומתועד — אפשר תמיד לבטל עם **Undo**.
+2. קובץ לא יידרס: שם יעד שכבר תפוס מסומן כהתנגשות ולא מבוצע.
+3. תווים אסורים בשמות (`< > : " / \ | ? *`) ושמות שמורים מזוהים מראש.
 
-print(HebrewNumbering.number_to_hebrew(1001, True, "letters"))  # א' א'
-print(HebrewNumbering.number_to_hebrew(1001, True, "words"))    # אלף א'
-print(HebrewNumbering.number_to_hebrew(5778, True, "letters"))  # ה' תשע"ח
+## בדיקות / Tests
 
-print(FileRenamer.format_number(1, "numeric_no_dot", numeric_padding=2))   # 01
-print(FileRenamer.format_number(10, "numeric_no_dot", numeric_padding=2))  # 10
-print(FileRenamer.format_number(1, "numeric_no_dot", numeric_padding=3))   # 001
-print(FileRenamer.format_number(10, "numeric_no_dot", numeric_padding=3))  # 010
-print(FileRenamer.format_number(100, "numeric_no_dot", numeric_padding=3)) # 100
+```bash
+python -m unittest discover -s tests
 ```
 
----
-
-## הערות חשובות
-
-1. מומלץ לגבות את הקבצים לפני שינוי שם מרובה.
-2. קובץ לא ישונה אם כבר קיים קובץ אחר בשם החדש.
-3. ודא שיש הרשאות כתיבה בתיקייה.
-
-## רישיון
+## רישיון / License
 
 MIT License

@@ -1,0 +1,40 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "hebrew-renamer"
+version = "2.0.0"
+description = "שינוי שמות קבצים מרובים עם מספור עברי (גימטריה), לשון נקייה, Undo ובטיחות אטומית"
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+keywords = ["hebrew", "gematria", "file-renamer", "batch-rename", "rtl"]
+
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Natural Language :: Hebrew",
+    "Topic :: Utilities",
+]
+
+dependencies = []
+
+[project.optional-dependencies]
+gui = ["pywebview>=5.0"]
+exif = ["Pillow>=9.0"]
+dev = []
+
+[project.scripts]
+hebrew-renamer = "hebrew_renamer.cli:run"
+
+[project.gui-scripts]
+hebrew-renamer-gui = "hebrew_renamer.webapp:main"
+
+[tool.setuptools]
+packages = ["hebrew_renamer"]
+include-package-data = true
+
+[tool.setuptools.package-data]
+hebrew_renamer = ["webui/*.html", "webui/*.js", "webui/*.css", "webui/*.png", "webui/*.ico"]
